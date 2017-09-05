@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<!--<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-responsive.css' %}">-->
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<style type="text/css" src="{% static 'bootstrap/css/bootstrap.css' %}"></style>
+
+<script type="text/javascript" src="{% static 'jchartfx/js/jchartfx.system.js'%}"></script>
+<script type="text/javascript" src="{% static 'jchartfx/js/jchartfx.coreVector.js'%}"></script>
+<!-- Uncomment this section to add extended User Interaction capabilities, including the End-User Menu.
+     The UI features require a jChartFX Plus license for deployment.
+<script type="text/javascript" src="jchartfx/js/jchartfx.userinterface.js"></script>
+<link rel="stylesheet" type="text/css" href="jchartfx/js/jchartfx.userinterface.css" />
+-->
+<link rel="stylesheet" type="text/css" href="{% static 'jchartfx/styles/Attributes/jchartfx.attributes.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'jchartfx/styles/Palettes/jchartfx.palette.css' %}" />
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>HTML5 Canvas折线图表和柱形图表DEMO演示</title>
+
+</head>
+<body onload="loadChart()">
+<div id="ChartDiv" style="width:600px;height:400px"></div>
+<script type="text/javascript" language="javascript">
+    var chart1;
+    function loadChart()
+      {
+            chart1 = new cfx.Chart();
+            chart1.getData().setSeries(2);
+            chart1.getAxisY().setMin(500);
+            chart1.getAxisY().setMax(2000);
+            var series1 = chart1.getSeries().getItem(0);
+            var series2 = chart1.getSeries().getItem(1);
+            series1.setGallery(cfx.Gallery.Lines);
+            series2.setGallery(cfx.Gallery.Bar);
+            var data = [
+            { "Month": "Jan", "Bikes": 1800, "Parts": 1300 },
+            { "Month": "Feb", "Bikes": 1760, "Parts": 900 },
+            { "Month": "Mar", "Bikes": 1740, "Parts": 970 },
+            { "Month": "Apr", "Bikes": 1750, "Parts": 1010},
+            { "Month": "May", "Bikes": 1810, "Parts": 1070 },
+            { "Month": "Jun", "Bikes": 1920, "Parts": 1180 }
+            ];
+            chart1.setDataSource(data);
+            var divHolder = document.getElementById('ChartDiv');
+            chart1.create(divHolder);
+      }
+</script>
+</body>
+</html>

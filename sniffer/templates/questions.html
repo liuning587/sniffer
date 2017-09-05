@@ -1,0 +1,335 @@
+{% extends "index.html" %}
+
+{% block title %}问题详情{% endblock %}
+
+{% block content %}
+
+{% block contents %}
+
+<div class="container" style="width: 1270px;">
+
+    {% endblock %}
+    <div class="row">
+        <form role="form" action="/qualityS/selectQuestion/" method="POST">
+
+            <div class="showcase-examples l-center">
+
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="2016-12">2016-12
+                </button>
+
+                <button type="submit" disabled="" class="button button-primary button-rounded button-small"
+                        name="month" value="01">一月
+                </button>
+                <button type="submit" disabled="" class="button button-primary button-rounded button-small"
+                        name="month" value="02">二月
+                </button>
+                <button type="submit" disabled="" class="button button-primary button-rounded button-small"
+                        name="month" value="03">三月
+                </button>
+                <button type="submit" disabled="" class="button button-primary button-rounded button-small"
+                        name="month" value="04">四月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="05">五月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="06">六月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="07">七月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="08">八月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="09">九月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="10">十月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="11">十一月
+                </button>
+                <button type="submit" class="button button-primary button-rounded button-small"
+                        name="month" value="12">十二月
+                </button>
+
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <h2 class="col-sm-8">总共问题数：{{question|length}} 个</h2>
+        <form role="form">
+            <button type="submit" style="left: 0px;
+    top: 25px;" class="col-sm-1 button button-raised button-primary button-small button-pill ">
+
+                <span class="glyphicon glyphicon-list"></span> <a
+                    href="/qualityS/selectQuestion/">全部</a>
+            </button>
+
+            <button type="submit" style="left: 40px;
+    top: 25px;" class="col-sm-1 button   button-raised button-action button-small button-pill ">
+
+                <span class="glyphicon glyphicon-cloud-download"></span><a
+                    href="/qualityS/download/">导出</a>
+            </button>
+        </form>
+
+        <form role="form" action="/qualityS/selectQuestion/" method="POST">
+            <button type="submit" style=" left: 80px;
+    top: 25px;" class="col-sm-1 button button-glow button-rounded button-caution button-small"
+                    name="month" value="99">
+                待处理
+            </button>
+        </form>
+
+
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>ques_from</th>
+            <th>ques_system</th>
+            <th>ques_dsc</th>
+            <th>ques_to</th>
+            <th>ques_result</th>
+            <th>ques_status</th>
+            <th>is_bug</th>
+            <th>create_at</th>
+            <td>category</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in question %}
+
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.ques_from|slice:"8"}}</td>
+            <td>{{item.ques_system}}</td>
+            <td><a class="bs-docs-popover" data-placement="left" data-trigger="hover" data-toggle="popover"
+                   data-content="{{item.ques_dsc}}" data-original-title="问题描述">{{item.ques_dsc|slice:"15"}}...</a>
+            </td>
+            <td>{{item.ques_to}}</td>
+            <td><a class="bs-docs-popover" data-placement="right" data-trigger="hover" data-toggle="popover"
+                   data-content="{{item.ques_result}}" data-original-title="问题解决">{{item.ques_result|slice:"15"}}...</a>
+            </td>
+            <td>{{item.ques_status}}</td>
+            <td>{{item.is_bug}}</td>
+            <td>{{item.create_at}}</td>
+            <td style="width: 100px;">{{item.category}}</td>
+            {% if item.ques_status|length == 2 %}
+            <td>
+                <button style="width: 100px;" type="button" data-id="{{item.id}}"
+                        class="button button-rounded button-small " data-toggle="modal"
+                        data-target="#myModal">
+                    已处理
+                </button>
+            </td>
+            {% else %}
+            <td>
+                <button style="width: 100px;" type="button" data-id="{{item.id}}"
+                        class="button button-glow button-rounded button-caution button-small" data-toggle="modal"
+                        data-target="#myModal">
+                    待处理
+                </button>
+            </td>
+            {%endif %}
+        </tr>
+
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">操作</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">id</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control id" style="margin-left: 10px;" readonly
+                                       placeholder="id">
+                            </div>
+                            <label class="col-sm-2 control-label">ques_from</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control ques_from" style="margin-left: 10px;" readonly
+                                       placeholder="ques_from">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">ques_to</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control ques_to" style="margin-left: 10px;"
+                                       placeholder="ques_to">
+                            </div>
+                            <label class="col-sm-2 control-label">ques_system</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control ques_system" name="ques_system" id="ques_system">
+                                    <option>qd</option>
+                                    <option>m2</option>
+                                    <option>千丁app</option>
+                                    <option>shanghu</option>
+                                    <option>property</option>
+                                    <option>finance</option>
+                                    <option>管家app</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ques_dsc</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control ques_dsc" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ques_result</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control ques_result" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+
+                            <label class="col-sm-2 control-label">is_bug </label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control is_bug" style="margin-left: 10px;" name="is_bug"
+                                        id="is_bug">
+                                    <option>是</option>
+                                    <option>否</option>
+                                </select>
+                            </div>
+
+                            <label class="col-sm-2 control-label">ques_status</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control ques_status" name="ques_status" id="ques_status">
+                                    <option>未解决</option>
+                                    <option>关闭</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">create_at</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control create_at" readonly placeholder="create_at">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">update_at</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control update_at" readonly placeholder="update_at">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;margin-top: 11px">
+                        <label class="col-sm-2 control-label" for="category">category</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control category" name="category" id="category">
+                                <option>需求优化</option>
+                                <option>系统缺陷</option>
+                                <option>服务组件异常</option>
+                                <option>质量验收缺失</option>
+                                <option>第三方故障</option>
+                                <option>运营错误</option>
+                                <option>用户误解</option>
+                                <option>发布异常</option>
+                                <option>龙湖异常</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="text-right text-danger">保持修改，请先登录成功！</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('show.bs.modal', function(event) {
+        var id = $(event.relatedTarget).attr("data-id");
+		$.get('/qualityS/selectid', {
+ 			id: id
+ 		}).then(function(res) {
+            res = JSON.parse(res);
+            var data = res[0].fields;
+            var modal = $(event.target);
+            modal.find(".id").val(id)
+            modal.find(".ques_from").val(data.ques_from)
+            modal.find(".ques_system").val(data.ques_system)
+            modal.find(".ques_dsc").val(data.ques_dsc)
+            modal.find(".ques_to").val(data.ques_to)
+            modal.find(".ques_result").val(data.ques_result)
+            modal.find(".ques_status").val(data.ques_status)
+            modal.find(".is_bug").val(data.is_bug)
+            modal.find(".create_at").val(data.create_at)
+            modal.find(".update_at").val(data.update_at)
+            modal.find(".category").val(data.category)
+
+ 		})
+    });
+
+    $('#myModal .save').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/qualityS/update/', {
+            id:modal.find(".id").val(),
+            ques_dsc:modal.find(".ques_dsc").val(),
+            ques_to:modal.find(".ques_to").val(),
+            ques_system:modal.find(".ques_system").val(),
+            ques_result:modal.find(".ques_result").val(),
+            is_bug:modal.find(".is_bug").val(),
+            ques_status:modal.find(".ques_status").val(),
+            category:modal.find(".category").val(),
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+        })
+    });
+
+
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}

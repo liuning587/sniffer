@@ -1,0 +1,145 @@
+{% extends "index.html" %}
+
+{% block title %}上线统计{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <h2 class="col-sm-10">{{name}} 共计： {{onlineL|length}} 条</h2>
+    <form role="form">
+        <button type="submit" style="
+    top: 25px;" class="col-sm-2 button   button-raised button-action button-small button-pill ">
+
+            <span class="glyphicon glyphicon-cloud-download"></span>导出
+        </button>
+    </form>
+
+</div>
+{{present}}
+<table class="table">
+
+    <thead>
+
+    <tr>
+        <th>编号</th>
+        <th>单号内容</th>
+
+        <th>类别</th>
+        <th>发起人</th>
+        <th>发起时间</th>
+        <th>研发</th>
+        <th>质量</th>
+        <th>验收人</th>
+        <th>结束时间</th>
+        <th>研发进度</th>
+        <th>测试进度</th>
+        <th>上线进度</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for case in onlineL %}
+
+    <tr>
+        <td>{{case.run_id}}</td>
+        <td style="width: 240px;"><a class="bs-docs-popover" data-placement="bottom" data-trigger="hover"
+                                     data-toggle="popover"
+                                     data-content="{{case.data_3}}" data-original-title="项目简介">{{case.data_3}}</a>
+        </td>
+
+
+        <td>{{case.data_76}}</td>
+        <td>{{case.data_59}}</td>
+        <td>{{case.begin_time|date:"Y-m-d H:i:s"}}</td>
+        <td style="width: 60px;">
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="{{case.data_20|default:'未上线'}}"
+               data-original-title="详情">{{case.data_20|default:"未研发"|slice:"3" }}</a>
+
+        </td>
+        <td style="width: 60px;">{{case.data_61|default:"未测试" }}</td>
+        <td style="width: 60px;">{{case.data_45|default:"未验收"}}</td>
+        <td>{{case.data_72|default:"未结束"}}</td>
+        <td>
+            {% if case.data_74 == '' %}
+            PM设计…
+            {%else %}
+            {% if case.data_74 > present %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计时间：{{case.data_74}};
+               实际时间：{{case.data_9|default:'进行中'}}" data-original-title="详情"
+               style="color: #3c763d"
+            >等待</a>
+            {%else %}
+            {% if case.data_74 == case.data_9|slice:"10" %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计开始时间：{{case.data_74}};
+               实际开始时间：{{case.data_9|default:'未研发'}}" data-original-title="详情"
+            >正常</a>
+
+            {%else %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计开始时间：{{case.data_74}};
+               实际开始时间：{{case.data_9|default:'未研发'}}" data-original-title="详情"
+               style="color: #c7254e;background-color: #f9f2f4;">异常</a>
+
+            {% endif %}
+            {% endif %}
+            {% endif %}
+        </td>
+        <td>
+            {% if case.data_75 == '' %}
+            PM设计…
+            {%else %}
+            {% if case.data_75 > present %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计时间：{{case.data_75}};
+               实际时间：{{case.data_22|default:'进行中'}}" data-original-title="详情"
+               style="color: #3c763d"
+            >等待</a>
+            {%else %}
+            {% if case.data_75 == case.data_22|slice:"10" %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计开始时间：{{case.data_75}};
+               实际开始时间：{{case.data_22|default:'未研发'}}" data-original-title="详情"
+            >正常</a>
+            {% else %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计时间：{{case.data_75}}；实际时间：{{case.data_22|default:'未提测'}}"
+               data-original-title="详情" style="color: #c7254e;background-color: #f9f2f4;">异常</a>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+        </td>
+        <td>
+            {% if case.data_7 == '' %}
+            PM设计…
+            {%else %}
+            {% if case.data_7 > present %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计时间：{{case.data_7}};
+               实际时间：{{case.data_72|default:'进行中'}}" data-original-title="详情"
+               style="color: #3c763d"
+            >等待</a>
+            {%else %}
+            {% if case.data_7 == case.data_72|slice:"10" %}
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计时间：{{case.data_7}};
+               实际时间：{{case.data_72|default:'未研发'}}" data-original-title="详情"
+            >正常</a>
+            {% else %}
+            <a class="bs-docs-popover " data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="预计时间：{{case.data_7}}；实际时间：{{case.data_72|default:'未上线'}}"
+               data-original-title="详情" style="color: #c7254e;background-color: #f9f2f4;">异常</a>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+    </tbody>
+
+</table>
+{% endblock %}

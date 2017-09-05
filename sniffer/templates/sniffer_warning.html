@@ -1,0 +1,313 @@
+{% extends "index.html" %}
+
+{% block title %}预警管理{% endblock %}
+
+{% block content %}
+
+{% block contents %}
+
+<div class="container">
+
+    {% endblock %}
+    <p class="text-right text-lowercase">崩溃：发送短信和微信推送；异常：只发送微信推送.</p>
+    <div class="row">
+        <h2 class="col-sm-3">报警：{{user|length}} 个用户</h2>
+        <div class="col-sm-2">
+            <p class="text-right text-danger msg" style="margin-left: 10px;" placeholder="msg"></p>
+        </div>
+        <form role="form" class="form-inline col-sm-4" action="/rail/selectWarningUser/" method="POST"
+              style="left: 0px; top: 25px;">
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon ">
+                        <span class="glyphicon glyphicon-zoom-out"></span>
+
+                    </div>
+
+                    <input class="form-control" type="text" placeholder="Enter mobile" id="mobile" name="mobile">
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="button button-primary button-rounded button-small">查询
+            </button>
+        </form>
+        <form role="form">
+            <button type="submit" style="left: 0px;  padding-left: 10px;
+    top: 25px;" class="col-sm-1 button button-raised button-primary button-small button-pill ">
+
+                <span class="glyphicon glyphicon-list"></span> <a
+                    href="/rail/selectWarningUser/" style="color: #f1eaf3">全部</a>
+            </button>
+
+
+        </form>
+        <button type="submit" style="left: 10px;  padding-left: 10px;
+    top: 25px;" class="col-sm-1 button   button-raised button-action button-small button-pill "
+                data-toggle="modal"
+                data-target="#addUser">
+
+            <span class="glyphicon  glyphicon-plus-sign"></span>新增
+        </button>
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>mobile</th>
+            <th>wxopenid</th>
+            <th>rank</th>
+            <th>system</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in user %}
+
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.wxopenid}}</td>
+            <td>{{item.rank}}</td>
+            <td>{{item.system}}</td>
+            <td>
+                <button style="width: 100px;" type="button" data-id="{{item.id}}"
+                        class="button  button-rounded  button-small" data-toggle="modal"
+                        data-target="#myModal">
+                    <span class="glyphicon glyphicon-edit"></span>
+
+                    修改
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">id</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control id" style="margin-left: 10px;" readonly
+                                       placeholder="id">
+                            </div>
+                            <label class="col-sm-2 control-label">name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control name" style="margin-left: 10px;"
+                                       placeholder="name">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">mobile</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control mobile" style="margin-left: 10px;"
+                                       placeholder="mobile">
+                            </div>
+                            <label class="col-sm-2 control-label">rank</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control rank" name="rank" id="rank">
+                                    <option>崩溃</option>
+                                    <option>异常</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">wxopenid</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control wxopenid" rows="2"></textarea>
+                        </div>
+                    </div>
+                <div  class="form-group">
+                    <label class="col-sm-2 control-label">system</label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control system" rows="2"></textarea>
+
+                        <!--<input type="text" class="form-control system" style="margin-left: 10px;"-->
+                               <!--placeholder="system">-->
+                    </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="text-right text-danger">保持修改，请先登录成功！</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('show.bs.modal', function(event) {
+        var id = $(event.relatedTarget).attr("data-id");
+		$.get('/rail/updateUser', {
+ 			id: id
+ 		}).then(function(res) {
+            res = JSON.parse(res);
+            var data = res[0].fields;
+            var modal = $(event.target);
+            modal.find(".id").val(id)
+            modal.find(".name").val(data.name)
+            modal.find(".mobile").val(data.mobile)
+            modal.find(".wxopenid").val(data.wxopenid)
+            modal.find(".rank").val(data.rank)
+            modal.find(".system").val(data.system)
+
+ 		})
+    });
+
+    $('#myModal .save').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/rail/updateUser/', {
+            id:modal.find(".id").val(),
+            name:modal.find(".name").val(),
+            mobile:modal.find(".mobile").val(),
+            wxopenid:modal.find(".wxopenid").val(),
+            rank:modal.find(".rank").val(),
+            system:modal.find(".system").val(),
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+        })
+    });
+
+
+
+
+
+
+
+
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addUser" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="addUser1">新增</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control addName" style="margin-left: 10px;"
+                                       placeholder="addName">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">mobile</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control addMobile" style="margin-left: 10px;"
+                                       placeholder="addMobile">
+                            </div>
+                            <label class="col-sm-2 control-label">rank</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control addRank" name="rank" id="addRank">
+                                    <option>崩溃</option>
+                                    <option>异常</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">wxopenid</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control addwxopenid" rows="2"></textarea>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label">system</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control addsystem" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="text-right text-danger">保持修改，请先登录成功！</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary add" data-dismiss="modal">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#addUser').on('show.bs.modal', function(event) {
+
+    });
+
+    $('#addUser .add').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/rail/addWarningUser/', {
+            name:modal.find(".addName").val(),
+            mobile:modal.find(".addMobile").val(),
+            wxopenid:modal.find(".addwxopenid").val(),
+            rank:modal.find(".addRank").val(),
+            system:modal.find(".addsystem").val(),
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+           modal.find(".msg").val(res)
+
+        })
+    });
+
+
+
+
+
+</script>
+
+{% endblock %}

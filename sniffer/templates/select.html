@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+
+{% block title %}查询用例{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>全部</h1>
+</div>
+<form role="form" action="/rail/select/" method="GET">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">查询全部</button>
+</form>
+<div class="page-header">
+    <h1>部分</h1>
+</div>
+<form role="form" action="/rail/select/" method="POST">
+    <div class="form-group">
+
+        <label for="casename">casename</label>
+        <input type="text" class="form-control" id="casename" name="casename" value="物业结算">
+    </div>
+    <div class="form-group">
+        <label for="system">system</label>
+        <select class="form-control" name="system" id="system">
+            <option>boss</option>
+            <option>m2</option>
+            <option>QDapp</option>
+            <option>HKapp</option>
+            <option>shanghu</option>
+            <option>property</option>
+            <option>BAMApp</option>
+            <option>Compass</option>
+            <option>wave</option>
+        </select>
+        <br>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">查询部分</button>
+    </div>
+
+</form>
+{% endblock %}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<script src="{% static 'bootstrap/js/jquery-1.9.1.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<!--<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-responsive.css' %}">-->
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+
+<style type="text/css" src="{% static 'bootstrap/css/bootstrap.css' %}"></style>
+
+
+<script type="text/javascript" src="{% static 'jchartfx/js/jchartfx.system.js'%}"></script>
+<script type="text/javascript" src="{% static 'jchartfx/js/jchartfx.coreVector.js'%}"></script>
+
+
+<!-- Uncomment this section to add extended User Interaction capabilities, including the End-User Menu.
+     The UI features require a jChartFX Plus license for deployment.
+<script type="text/javascript" src="jchartfx/js/jchartfx.userinterface.js"></script>
+<link rel="stylesheet" type="text/css" href="jchartfx/js/jchartfx.userinterface.css" />
+-->
+<link rel="stylesheet" type="text/css" href="{% static 'jchartfx/styles/Attributes/jchartfx.attributes.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'jchartfx/styles/Palettes/jchartfx.palette.css' %}" />
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>svn提交统计</title>
+
+</head>
+
+<script type="text/javascript" language="javascript">
+var chart1;
+chart1 = new cfx.Chart();
+chart1.setGallery(cfx.Gallery.Gantt);
+var titles = chart1.getTitles();
+var title = new cfx.TitleDockable();
+title.setText("svn提交统计(次数)");
+titles.add(title);
+chart1.getAxisY().getLabelsFormat().setFormat();
+    </script>
+
+ <script type="text/javascript" language="javascript">
+
+ var itemsTest = eval( {{ svncount|safe }} );
+    var items =[];
+    itemsTest.forEach(function(item){
+        var ii = {
+            "user_name": item.user_name,
+            "date_count": item.date_count,
+            "weeks_count": item.weeks_count,
+            "month_count": item.month_count
+        }
+        items.push(ii);
+    })
+    var page = 0;
+   items.reverse();
+    function addPage(){
+        page = page + 1;
+        if (page > items.length /10) {
+            page = 0;
+        }
+        drawChar();
+    }
+
+    function removePage() {
+        page = page - 1;
+        if (page < 0){
+            page = 0;
+        }
+        drawChar();
+    }
+
+   function drawChar() {
+
+    console.log(page);
+
+
+var bar = chart1.getGalleryAttributes();
+   var subItems = [];
+   var start = page * 10;
+   var end = page * 10 + 10;
+   for(var i = start; i < end; i++ ){
+    subItems.push(items[i]);
+   }
+    chart1.setDataSource(subItems.reverse());
+    var divHolder = document.getElementById('ChartDiv');
+        chart1.create(divHolder);
+}
+</script>
+<body >
+<h1>svn提交统计 {{timeresult}}</h1>
+<div class="row">
+  <div class="col-md-6" onclick="addPage()"></div>
+  <div class="col-md-1" onclick="addPage()"><span class="glyphicon glyphicon-arrow-down">下一页</span></div>
+  <div class="col-md-1" onclick="removePage()"><span class="glyphicon glyphicon-arrow-up">上一页</span></div>
+
+    </div>
+<div class="row">
+
+
+    </div>
+    <div >
+          <div class="col-md-10" id="ChartDiv"  style="width:60%;height:66%;position: absolute;display: inline-block;line-height: normal;" >
+    </div>
+</div>
+
+<script language="javascript">
+            $(document).ready(function ($) {
+                drawChar();
+            });
+        </script>
+</body>
+</html>

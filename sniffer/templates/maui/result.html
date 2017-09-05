@@ -1,0 +1,54 @@
+{% extends "../index.html" %}
+
+{% block title %}接口报告{% endblock %}
+{% block contents %}
+
+<div class="container-fluid" style="padding-right: 65px;padding-left: 40px;">
+    {% endblock %}
+
+  {% block content %}
+   <p class="navbar-text navbar-right">
+    <a class="button button-circle button-tiny  button-rounded button-raised button-primary"></a>
+    <a>成功</a>
+    <a class="button button-circle button-tiny button-glow button-rounded button-caution"></a>
+    <a class="text-right text-danger" style="font-size: 20px;"> <strong>失败</strong></a>
+    <a class="button button-circle button-tiny button-glow button-rounded button-highlight"></a>
+    <a class="text-warning">执行中</a>
+    <a class="button button-circle button-tiny button-glow button-pill button-inverse"></a>
+    <a class="text-warning" style="font-size: 20px;">崩溃</a>
+
+</p>
+    <h1>sniffer执行结果 {{ timeresult }}</h1>
+    {% for key, list in snifferRe.items %}
+    <h3>{{ key }}</h3>
+    {% for item in list %}
+    {% if item.result == "1" %}
+
+    <a href={{ item.url }}
+       class="button button-circle button-tiny  button-rounded button-raised button-primary"></a>
+    <a style="font-size: 20px;">  {{item.cname }}  </a>
+    {% else %}
+
+    {% if item.result == "-1" %}
+    <a href={{ item.url }} class="button button-circle button-tiny button-glow button-rounded button-caution"></a>
+    <a class="text-right text-danger" style="font-size: 24px;"><strong>{{ item.cname }}</strong></a>
+    {% else %}
+    {% if item.result == "2" %}
+    <a href={{ item.url }} class="button button-circle button-tiny button-glow button-pill button-inverse"></a>
+    <a class="text-right text-muted" style="font-size: 24px;"><strong>{{ item.cname }}</strong></a>
+     {% else %}
+    <a href={{ item.url }} class="button button-circle button-tiny button-glow button-rounded button-highlight"></a>
+    <a class="text-warning" style="font-size: 20px;"><strong>{{ item.cname }}</strong></a>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+
+
+    {% endfor %}
+
+
+    {% endfor %}
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "index.html" %}
+
+{% block title %}上线中统计{% endblock %}
+{% block contents %}
+<div class="container" style="width: 1270px;
+    margin-left: 5px">
+    {% endblock %}
+    {% block content %}
+    <div class="container" style="width: 1270px;">
+
+        <div class="row">
+            <h2 class="col-sm-10">{{name}} 共计： {{onlineL|length}} 条 当前日期： {{present}}
+            </h2>
+
+
+        </div>
+        <div class="bs-callout bs-callout-info">
+
+
+            <h4>新配置文件:</h4>
+
+            <p>
+                {{disconf_add|escape|safe}}
+
+            </p>
+        </div>
+        <div class="bs-callout bs-callout-warning">
+
+
+            <h4>配置文件修改:</h4>
+
+            <p>
+                {{conf_update|escape|safe}}
+
+            </p>
+        </div>
+        <div class="bs-callout bs-callout-danger">
+
+
+            <h4>上线系统总计:</h4>
+
+            <p>
+                {% for case in onlineL %}
+                {{case.online_system|escape|safe}}<br>
+                {% endfor %}
+
+            </p>
+        </div>
+        <!--<div class="bs-callout bs-callout-warning">-->
+
+            <!--<h4>上线配置文件总计:</h4>-->
+
+            <!--<p>-->
+                <!--{% for case in onlineL %}-->
+                <!--{{case.code}}:-->
+                <!--{{case.profile_change_details|escape|safe|cut:'项目名：配置名：配置变更内容：'|cut:'<br>'|cut:' '}}-->
+                <!--<br>-->
+                <!--{% endfor %}-->
+            <!--</p>-->
+        <!--</div>-->
+        <div class="bs-callout bs-callout-success">
+
+            <h4>上线数据库总计:</h4>
+
+            <p>
+                {% for case in onlineL %}
+
+                {% if case.data_base1|cut:' ' == '' %}
+                {{case.code}} 无 <br> {%else %}
+                {{case.code}} {{case.sql_file_path}}<br>
+                {% endif %}
+                {% endfor %}
+
+            </p>
+        </div>
+        <table class="table">
+
+            <thead>
+
+            <tr>
+                <th class="col-sm-1">编号</th>
+                <th class="col-sm-2">单号内容</th>
+                <th>编译</th>
+                <th>上线系统</th>
+                <th>配置文件</th>
+                <th>数据库</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for case in onlineL %}
+
+            <tr>
+                <td>{{case.code}}</td>
+                <td><a class="bs-docs-popover" data-placement="bottom" data-trigger="hover"
+                       data-toggle="popover"
+                       data-content="{{case.project_profile|escape|safe}}" data-original-title="项目简介">{{case.project_profile|escape|safe}}</a>
+                </td>
+
+
+                <td>{{case.on_line_deployment_personnel}}</td>
+                <td>{{case.online_system|escape|safe}}</td>
+                <td>{{case.profile_change_details|escape|safe}}</td>
+                <td>{{case.data_base}}</td>
+
+                <td>
+                    {% if case.data_base1|cut:' ' == '' %}
+                    无 {%else %}
+                    {{case.sql_file_path}}
+                    {% endif %}
+                </td>
+
+
+            </tr>
+
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+
+    </div>
+            <div class="alert alert-danger" role="alert"><h5>提示：该页面在mis流程质量确认后，运维转交流程前统计展示。运维转交mis单后将在"今日上线"中展示</h5></div>
+</div>
+{% endblock %}

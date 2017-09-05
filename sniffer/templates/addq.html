@@ -1,0 +1,118 @@
+{% extends "index.html" %}
+
+{% block title %}新增问题{% endblock %}
+
+{% block content %}
+    <div class="page-header" style="margin-top: 0px;">
+        <h1>新增问题</h1>
+    </div>
+    <form class="form-horizontal" role="form" action="/qualityS/add/" method="post">
+        <div class="form-group" style="margin-bottom: 5px;">
+            <label class="col-sm-2 control-label" for="ques_from">ques_from</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="ques_from" name="ques_from" value="呼叫中心">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5px;">
+            <label class="col-sm-2 control-label" for="ques_dsc">ques_dsc</label>
+
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3" id="ques_dsc" name="ques_dsc" placeholder="问题描述"></textarea>
+
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 5px;">
+            <label class="col-sm-2 control-label" for="ques_to">ques_to</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="ques_to" name="ques_to" placeholder="接收人">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5px;">
+            <label class="col-sm-2 control-label" for="ques_result">ques_result</label>
+
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3" id="ques_result" name="ques_result" placeholder="处理结果"></textarea>
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 5px;">
+            <label class="col-sm-2 control-label" for="info">info</label>
+             <div class="col-sm-10">
+                <textarea class="form-control" rows="3" id="info" name="info" placeholder="预留上传图片"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5px;">
+            <label class="col-sm-2 control-label">is_bug</label>
+
+            <div class="col-sm-3">
+                <label>
+                    <input type="radio" name="is_bug" id="optionsRadios1" value="否" checked>
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="is_bug" id="optionsRadios2" value="是">
+                    是
+                </label>
+            </div>
+
+            <label class="col-sm-2 control-label">ques_status</label>
+
+            <div class="col-sm-3">
+                <label>
+                    <input type="radio" name="ques_status" id="optionsRadios3" value="未解决" checked>
+                    未解决
+                </label>
+                <label>
+                    <input type="radio" name="ques_status" id="optionsRadios4" value="关闭">
+                    关闭
+                </label>
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 5px;margin-top: 11px">
+            <label class="col-sm-2 control-label" for="ques_system">ques_system</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="ques_system" id="ques_system">
+                    <option>qd</option>
+                    <option>m2</option>
+                    <option>千丁app</option>
+                    <option>HKapp</option>
+                    <option>shanghu</option>
+                    <option>property</option>
+                    <option>finance</option>
+                    <option>管家app</option>
+                </select>
+            </div>
+                        <label class="col-sm-2 control-label" for="category">category</label>
+
+                        <div class="col-sm-3">
+                            <select class="form-control category" name="category" id="category">
+                                <option>用户误解</option>
+                                <option>需求优化</option>
+                                <option>服务组件异常</option>
+                                <option>质量验收缺失</option>
+                                <option>系统缺陷</option>
+                                <option>第三方故障</option>
+                                <option>运营错误</option>
+                                <option>发布异常</option>
+                                <option>龙湖异常</option>
+                            </select>
+                        </div>
+                    </div>
+
+        <div class="col-sm-4"></div>
+        <div class="col-sm-5">
+                   <button type="submit"  class="btn btn-primary btn-lg btn-block">提交</button>
+
+        </div>
+                <div class="col-sm-4">
+                    <p class="text-right text-danger">问题id：{{mes|default:"  (N/A)  " }}  添加成功</p>
+                </div>
+
+
+     </form>
+
+{% endblock %}

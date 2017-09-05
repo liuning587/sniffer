@@ -1,0 +1,111 @@
+{% extends "index.html" %}
+
+{% block title %}添加用例{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-top: 10px;">
+    <h1 style="margin-top: 10px;">添加用例</h1>
+</div>
+<form class="form-horizontal" role="form" action="/rail/add/" method="post">
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="create_by">creat_by</label>
+
+        <div class="col-sm-10">
+            <input type="email" class="form-control" id="create_by" name="create_by" value="zhaochunyu@qding.me">
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="casename">casename</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="casename" name="casename" value="物业结算">
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="url">url</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="url" name="url" placeholder="请求链接">
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;margin-top: 11px">
+        <label class="col-sm-2 control-label" for="system">system</label>
+
+        <div class="col-sm-10">
+            <select class="form-control" name="system" id="system">
+                <option>boss</option>
+                <option>m2</option>
+                <option>QDapp</option>
+                <option>HKapp</option>
+                <option>shanghu</option>
+                <option>property</option>
+                <option>BAMApp</option>
+                <option>Compass</option>
+                <option>wave</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="data">data</label>
+
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" id="data" name="data" placeholder="请求数据"></textarea>
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="expect">expect</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="expect" name="expect" value="物业结算">
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="row">
+            <label class="col-sm-2 control-label" style="margin-left: 10px">method</label>
+
+            <div class="col-sm-2">
+                <select class="form-control method" name="method" id="method">
+                    <option>POST</option>
+                    <option>GET</option>
+                </select>
+            </div>
+
+            <label class="col-sm-1 control-label">state</label>
+
+            <div class="col-sm-2">
+                <select class="form-control state" name="state" id="state">
+                    <option>1</option>
+                    <option>0</option>
+                </select>
+            </div>
+            <label class="col-sm-2 control-label">is_warning</label>
+
+            <div class="col-sm-2">
+                <select class="form-control state" name="is_warning" id="is_warning">
+                    <option>yes</option>
+                    <option>no</option>
+                </select>
+            </div>
+        </div>
+    </div>
+<div class="form-group" style="margin-bottom: 5px;">
+    <label class="col-sm-2 control-label" for="emailto">emailto</label>
+
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="emailto" name="emailto" value="zhaochunyu@qding.me">
+        <span class="help-block">多个邮件地址以英文';'分隔</span>
+    </div>
+</div>
+
+    <div class="col-sm-4"></div>
+    <div class="col-sm-5">
+        <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
+
+    </div>
+
+</form>
+
+{% endblock %}

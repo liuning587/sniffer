@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="refresh" content="18000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> 监控页面</title>
+    <style>
+	
+    .box{ visibility:hidden; width:1920px; position:absolute;top:0;left:0;}
+	.box.active {visibility:visible;}
+	
+    </style>
+  </head>
+  <body>
+  <div class="box-2 box"><iframe src="https://qd.qdingnet.com/dcenterbg/#/profee_report" width="100%"  height="1080px"></iframe></div>
+    <div class="box-1 box active"><iframe src="https://qd.qdingnet.com/#/report" width="100%"  height="1080px"></iframe></div>
+      <script src="{% static 'bootstrap/js/jQuery.js' %}"></script>    <script type="text/javascript">
+    var c = 1;
+    var limt = 2;
+    function showLogin() {
+      if (c < limt) {
+        c = c + 1;
+        $(".box").removeClass('active');
+        $(".box-" + c).addClass('active');
+      } else {
+        c = 1;
+        $(".box").removeClass('active');
+        $(".box-" + c).addClass('active');
+      }
+    }
+    setInterval("showLogin()", "40000");
+    
+	
+	</script>
+	
+    
+  </body>
+</html>

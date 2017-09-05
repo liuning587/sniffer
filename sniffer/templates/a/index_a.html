@@ -1,0 +1,313 @@
+{% extends "index.html" %}
+
+{% block title %}首页管理{% endblock %}
+
+{% block content %}
+
+{% block contents %}
+
+<div class="container">
+
+    {% endblock %}
+    <div class="row">
+        <h2 class="col-sm-3">首页：{{indexa|length}} 个链接</h2>
+        <div class="col-sm-2">
+            <p class="text-right text-danger msg" style="margin-left: 10px;" placeholder="msg"></p>
+        </div>
+        <form role="form" class="form-inline col-sm-4" action="/a/select/" method="POST"
+              style="left: 0px; top: 25px;">
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon ">
+                        <span class="glyphicon glyphicon-zoom-out"></span>
+
+                    </div>
+
+                    <input class="form-control" type="text" placeholder="Enter url_name" id="url_name" name="url_name">
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="button button-primary button-rounded button-small">查询
+            </button>
+        </form>
+
+        <button type="submit" style="left: 10px;  padding-left: 10px;
+    top: 25px;" class="col-sm-1 button   button-raised button-action button-small button-pill "
+                data-toggle="modal"
+                data-target="#addUser">
+
+            <span class="glyphicon  glyphicon-plus-sign"></span>新增
+        </button>
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>url</th>
+            <th>group_name</th>
+            <th>btn</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in indexa %}
+
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.url_name}}</td>
+            <td>{{item.url}}</td>
+            <td>{{item.group_name}}</td>
+            <td>{{item.btn}}</td>
+            <td>
+                <button style="width: 100px;" type="button" data-id="{{item.id}}"
+                        class="button  button-rounded  button-small" data-toggle="modal"
+                        data-target="#myModal">
+                    <span class="glyphicon glyphicon-edit"></span>
+
+                    修改
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">id</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control id" style="margin-left: 10px;" readonly
+                                       placeholder="id">
+                            </div>
+                            <label class="col-sm-2 control-label">url_name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control url_name" style="margin-left: 10px;"
+                                       placeholder="url_name">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">group_name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control group_name" style="margin-left: 10px;"
+                                       placeholder="group_name">
+                            </div>
+                            <label class="col-sm-2 control-label">blank</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control blank" name="blank" id="blank">
+                                    <option></option>
+                                    <option>_blank</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-2 control-label">btn</label>
+
+                    <div class="col-sm-3">
+                        <select class="form-control btn" name="btn" id="btn">
+                            <option>btn-info</option>
+                            <option>btn-warning</option>
+                            <option>btn-success</option>
+                            <option>btn-primary</option>
+                            <option>btn-danger</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">url</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control url" rows="3"></textarea>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="text-right text-danger">保持修改，请先登录成功！</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('show.bs.modal', function(event) {
+        var id = $(event.relatedTarget).attr("data-id");
+		$.get('/a/update', {
+ 			id: id
+ 		}).then(function(res) {
+            res = JSON.parse(res);
+            var data = res[0].fields;
+            var modal = $(event.target);
+            modal.find(".id").val(id)
+            modal.find(".url_name").val(data.url_name)
+            modal.find(".url").val(data.url)
+            modal.find(".blank").val(data.is_blank)
+            modal.find(".group_name").val(data.group_name)
+            modal.find(".btn").val(data.btn)
+
+ 		})
+    });
+
+    $('#myModal .save').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/a/update/', {
+            id:modal.find(".id").val(),
+            url_name:modal.find(".url_name").val(),
+            url:modal.find(".url").val(),
+            is_blank:modal.find(".blank").val(),
+            group_name:modal.find(".group_name").val(),
+            btn:modal.find(".btn").val(),
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+        })
+    });
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addUser" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="addUser1">新增</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">url_name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control addName" style="margin-left: 10px;"
+                                       placeholder="addName">
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label">addBlank</label>
+
+                        <div class="col-sm-3">
+                            <select class="form-control addBlank" name="addBlank" id="addBlank">
+                                <option>_blank</option>
+                                <option></option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">addGroup_name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control addGroup_name" style="margin-left: 10px;"
+                                       placeholder="addGroup_name">
+                            </div>
+
+                            <label class="col-sm-2 control-label">addBtn</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control addBtn" name="addBtn" id="addBtn">
+                                    <option>btn-info</option>
+                                    <option>btn-warning</option>
+                                    <option>btn-success</option>
+                                    <option>btn-primary</option>
+                                    <option>btn-danger</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">addUrl</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control addUrl" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="text-right text-danger">保持修改，请先登录成功！</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary add" data-dismiss="modal">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#addUser').on('show.bs.modal', function(event) {
+
+    });
+
+    $('#addUser .add').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/a/add/', {
+            url_name:modal.find(".addName").val(),
+            url:modal.find(".addUrl").val(),
+            group_name:modal.find(".addGroup_name").val(),
+            is_blank:modal.find(".addBlank").val(),
+            btn:modal.find(".addBtn").val(),
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+           modal.find(".msg").val(res)
+
+        })
+    });
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}

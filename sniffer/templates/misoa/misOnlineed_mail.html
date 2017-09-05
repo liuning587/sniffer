@@ -1,0 +1,100 @@
+{% extends "index.html" %}
+
+{% block title %}上线统计{% endblock %}
+{% block contents %}
+<div class="container" style="width: 1270px;
+    margin-left: 5px">
+    {% endblock %}
+    {% block content %}
+    <div class="container" style="width: 1270px;">
+
+        <div class="row">
+
+            {% if onlineL|length_is:'0' %}
+            <h2 class="col-sm-10">日期： {{present}}
+               : 今日无系统发布
+            </h2>
+            {%else%}
+
+            <h2 class="col-sm-10">日期： {{present}} 共计： {{onlineL|length}} 张
+            </h2>
+
+            {% endif %}
+
+
+        </div>
+        <table class="table">
+
+            <thead>
+
+            <tr>
+                <th>编号</th>
+                <th class="col-sm-4">单号内容</th>
+                <th>类别</th>
+                <th>发起人</th>
+                <th>发起时间</th>
+                <th>研发</th>
+                <th>质量</th>
+                <th>结束时间</th>
+                <th>上线进度</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for case in onlineL %}
+
+            <tr>
+                <td>{{case.code}}</td>
+                <td><a class="bs-docs-popover" data-placement="bottom" data-trigger="hover"
+                       data-toggle="popover"
+                       data-content="{{case.project_profile|escape|safe}}" data-original-title="项目简介">{{case.project_profile|escape|safe}}</a>
+                </td>
+
+
+                <td>{{case.category_name}}</td>
+                <td>{{case.employee_name|slice:"3"}}</td>
+                <td>{{case.request_date}}</td>
+                <td>
+                    <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+                       data-content="{{case.staffing_name|default:'未分配'}}: {{case.start_time}} {{case.start_date}}"
+                       data-original-title="详情">{{case.staffing_name|default:"未研发" |slice:"3"}}</a>
+
+                </td>
+                <td>
+                    <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+                       data-content="{{case.on_line_deployment_personnel_name|default:'未测试'}}: {{case.test_start_time}} {{case.test_start_date}}"
+                       data-original-title="详情">{{case.on_line_deployment_personnel_name|default:"未测试"|slice:"3"}}</a>
+
+                </td>
+                <!--<td style="width: 60px;">{{case.on_line_deployment_personnel|default:"未测试" }}</td>-->
+
+                <td>
+
+                    {{case.on_line_deployment_time | cut:''}} {{case.on_line_deployment_date | cut:''}}
+
+                </td>
+
+
+                <td>
+                    {% if case.on_line_deployment_time|cut:' ' != '' %}
+
+                    <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+                       data-content="预计时间：{{case.on_line_date}};
+               实际时间：{{case.on_line_deployment_time|default:'进行中'}}" data-original-title="详情"
+                    >完成</a>
+
+
+                    {% endif %}
+
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+
+    </div>
+    {% endblock %}

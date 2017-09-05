@@ -1,0 +1,215 @@
+{% extends "index.html" %}
+
+{% block title %}用例详情{% endblock %}
+
+{% block content %}
+<p class="text-right text-danger">state：1:可用;0:停用</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>system</th>
+        <th>url
+        </th>
+        <th>is_warning</th>
+        <th>state</th>
+        <th>do</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for case in snifferCa %}
+
+    <tr>
+        <td>{{case.id}}</td>
+        <td>{{case.casename}}</td>
+        <td>{{case.system}}</td>
+        <!--<td>{{case.url}}</td>-->
+         <td style="width: 240px;">
+            <a class="bs-docs-popover" data-placement="bottom" data-trigger="hover" data-toggle="popover"
+               data-content="{{case.url}}"
+               data-original-title="详情">{{case.url|slice:"50" }}</a>
+
+        </td>
+        <td>{{case.is_warning}}</td>
+
+
+        <td><a class="state" data-id="{{case.state}}">{{case.state }}</a></td>
+        <td>
+            <button type="button" data-id="{{case.id}}" class="btn btn-primary btn-lg" data-toggle="modal"
+                    data-target="#myModal">
+                详情
+            </button>
+        </td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+
+</table>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改用例</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">id</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control id" style="margin-left: 10px;" readonly
+                                       placeholder="id">
+                            </div>
+                            <label class="col-sm-2 control-label">name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control casename" style="margin-left: 10px;"
+                                       placeholder="casename">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">system</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control system" name="system" id="system">
+                                <option>boss</option>
+                                <option>m2</option>
+                                <option>QDapp</option>
+                                <option>HKapp</option>
+                                <option>shanghu</option>
+                                <option>property</option>
+                                <option>BAMApp</option>
+                                <option>Compass</option>
+                                <option>wave</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">url</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control url" placeholder="url">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">data</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control data" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">expect</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control expect" placeholder="expect">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="margin-left: 10px">method</label>
+
+                            <div class="col-sm-2">
+                                <select class="form-control method" name="method" id="method">
+                                    <option>POST</option>
+                                    <option>GET</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 control-label" style="margin-left: 10px">state</label>
+
+                            <div class="col-sm-2">
+                                <select class="form-control state" name="state" id="state">
+                                    <option>1</option>
+                                    <option>0</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">is_warning</label>
+
+                            <div class="col-sm-2">
+                                <select class="form-control is_warning" name="is_warning" id="is_warning">
+                                    <option>yes</option>
+                                    <option>no</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">emailto</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control emailto" rows="3" placeholder="emailto"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('show.bs.modal', function(event) {
+        var id = $(event.relatedTarget).attr("data-id");
+		$.get('/rail/selectid', {
+ 			id: id
+ 		}).then(function(res) {
+            res = JSON.parse(res);
+            var data = res[0].fields;
+            var modal = $(event.target);
+        console.log( modal)
+            modal.find(".id").val(id)
+            modal.find(".casename").val(data.casename)
+            modal.find(".system").val(data.system)
+            modal.find(".url").val(data.url)
+            modal.find(".data").val(data.data)
+            modal.find(".method").val(data.method)
+            modal.find(".expect").val(data.expect)
+            modal.find(".state").val(data.state)
+            modal.find(".emailto").val(data.emailto)
+            modal.find(".is_warning").val(data.is_warning)
+
+ 		})
+    });
+
+    $('#myModal .save').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/rail/update/', {
+            id:modal.find(".id").val(),
+            casename:modal.find(".casename").val(),
+            system:modal.find(".system").val(),
+            url:modal.find(".url").val(),
+            data:modal.find(".data").val(),
+            method:modal.find(".method").val(),
+            expect:modal.find(".expect").val(),
+            emailto:modal.find(".emailto").val(),
+            is_warning:modal.find(".is_warning").val(),
+            state:modal.find(".state").val()
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+        })
+    });
+
+
+
+
+</script>
+
+{% endblock %}

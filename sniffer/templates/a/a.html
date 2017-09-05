@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+
+{% block style %}
+
+<style type="text/css">
+    html,body {height: 100%;}
+    body{background: #55b7f8 url(https://img1.qdingnet.com/0f98bcf1748378f2fab800139f024d0c.png?imageslim) left bottom no-repeat; background-size: 100%; background-attachment: fixed;}
+    .outer { width: 100%; min-height: 100%; padding: 10px 40px; text-align: center; font-size: 0;}
+    .outer>h3 { text-align: center; position: relative; color: #fff; }
+    .outer>h3 i { display: inline-block; width: 20px; height: 19px; background: url(https://img1.qdingnet.com/3a06dfc73364c43c9caebbd0b431a2e8.png) center no-repeat; background-size: 100%; }
+    .outer>.main { font-size: 0; }
+    .item { width: 300px; height: 264px; padding: 20px 30px; margin: 20px; overflow: hidden; display: inline-block; background: #fff; border-radius: 3px; }
+    .item>h3 { color: #000; border-bottom: 2px solid #eee; padding-bottom: 10px !important;margin-top:5PX; }
+    .button1 { display: inline-block; padding: 3px 5px; color: #fff; min-width: 60px; height: 30px; line-height: 27px; border-radius: 3px; font-size: 14px; }
+    .outer a:hover { text-decoration: none; color: #fff; }
+    .item .success { background-color: #7DC97E; }
+    .item .warning { background-color: #FFB92E; }
+    .item .info { background-color: #7782CF; }
+    .item .primary { background-color: #5CB3FC; }
+    .item .danger { background-color: #E77271; }
+    .item1 { display: inline-block; margin: 5px; }
+
+</style>
+{% endblock %}
+{% block title %}sniffer{% endblock %}
+{% block navbar %}
+{% endblock %}
+{% block contents %}
+{% endblock %}
+
+{% block content %}
+<div class="outer">
+    <h3><i></i> 千丁常用导航</h3>
+
+
+    {% for key, list in indexa.items %}
+
+    <div class="item">
+        <h3 class="demo-panel-title">{{ key }}</h3>
+        {% for item in list %}
+        <div class="item1">
+            <a href={{item.url}} type="button" class="btn {{item.btn}}" target="{{item.is_blank}}">{{item.url_name}}</a>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endfor %}
+
+</div>
+{% endblock %}
+
+
+{% block footer %}
+<p>© 千丁互联 2014</p>
+<address>
+
+    <a href="mailto:zhaochunyu@qding.me"><strong>chunyu.zhao</strong><br></a>
+</address>
+{% endblock %}

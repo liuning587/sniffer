@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+
+{% block title %}svn统计{% endblock %}
+
+{% block content %}
+
+{% block contents %}
+
+<div class="container" style="width: 1270px;">
+
+{% endblock %}
+
+
+<table class="table table-striped">
+    <p>只显示<code>月提交大于0</code>,且非外包人员,统计路径：<a>http://svn.qdingnet.com/svn/qd/trunk/</a></p>
+
+    <thead>
+    <tr>
+        <th>用户名</th>
+        <th>月统计</th>
+        <th>周统计</th>
+        <th>日统计</th>
+        <th>统计时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in svncount %}
+
+    {% if item.month_count == 0 %}
+
+        {% else %}
+              <tr>
+        <td>{{item.user_name}}</td>
+        <td>{{item.month_count}}</td>
+        <td>{{item.weeks_count}}</td>
+        <td>{{item.date_count}}</td>
+        <td>{{item.create_at}}</td>
+    </tr>
+          {%endif %}
+
+
+
+
+    {%endfor%}
+    </tbody>
+
+</table>
+</div>
+
+
+
+
+{% endblock %}

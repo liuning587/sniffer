@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+{% block meta %}
+{% endblock %}
+<script src="{% static 'bootstrap/js/jQuery.js' %}"></script>
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap/css/docs.min.css' %}">
+<!--<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-responsive.css' %}">-->
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript" src="{% static 'bootstrap/js/docs.min.js' %}"></script>
+<style type="text/css" src="{% static 'bootstrap/css/bootstrap.css' %}"></style>
+<link rel="stylesheet" href="{% static 'bootstrap/css/buttons.css' %}">
+<script src="http://cdn.bootcss.com/bootstrap-hover-dropdown/2.0.10/bootstrap-hover-dropdown.min.js"></script>
+{% block style %}
+{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}sniffer{% endblock %} </title>
+</head>
+<body>
+{% block navbar %}
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">sniffer</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-trigger="hover">接口用例 <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/rail/addCases/" target="_blank">添加用例</a></li>
+                        <li><a href="/rail/selectCases/" target="_blank">查询用例</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/rail/selectWarningUser/" target="_blank">报警管理</a></li>
+
+                    </ul>
+                </li>
+
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">执行用例 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/way/runApp/" target="_blank">执行app</a></li>
+                        <li><a href="/way/runCompass/" target="_blank">执行物业云</a></li>
+                        <li><a href="/way/runother/" target="_blank">执行其他</a></li>
+                    </ul>
+                </li>
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">svn提交统计 <span class="caret"></span></a>-->
+                <!--<ul class="dropdown-menu" role="menu">-->
+                <!--<li><a href="/statSVN/daystat/" target="_blank">月周日统计</a></li>-->
+                <!--</ul>-->
+                <!--</li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">svn报表 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+
+                        <li><a href="/result/svncount/" target="_blank">统计结果</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/result/svnchart/" target="_blank">统计图</a></li>
+                    </ul>
+                </li>
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">上线统计<span class="caret"></span></a>-->
+                <!--<ul class="dropdown-menu" role="menu">-->
+                <!--<li><a href="/tdoa/online/" target="_blank">研发中</a></li>-->
+                <!--<li class="divider"></li>-->
+                <!--<li><a href="/tdoa/today_online/">今日上线</a></li>-->
+                <!--<li><a href="/tdoa/weeks_online/">周上线统计</a></li>-->
+                <!--<li><a href="/tdoa/month_online/">月上线统计</a></li>-->
+                <!--<li><a href="/tdoa/end_online/" target="_blank">已经完成上线</a></li>-->
+                <!--</ul>-->
+                <!--</li>-->
+
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">mis上线统计<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/misoa/online/" >研发中</a></li>
+                        <li><a href="/misoa/on_online/" >上线中</a></li>
+
+                        <li class="divider"></li>
+                        <li><a href="/misoa/today_online/">今日上线</a></li>
+                        <!--<li><a href="/misoa/weeks_online/">周上线统计</a></li>-->
+                        <!--<li><a href="/mis/month_online/">月上线统计</a></li>-->
+                        <li><a href="/misoa/end_online/" target="_blank">已经完成上线</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">质量服务台<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/qualityS/addQuestion/" target="_blank">问题添加</a></li>
+                        <li><a href="/qualityS/selectQuestion/" target="_blank">问题大表</a></li>
+                    </ul>
+                </li>
+                <li><a href="/result/snifferresult/" target="_blank">接口报告</a></li>
+                <li><a href="http://sniffer.iqdnet.cn/testPlan/index.html" target="_blank">测试排期</a></li>
+
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maui<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/maui/add_url/" target="_blank">add_url</a></li>
+                        <li><a href="/maui/add_url_cases/?id=all">add_url_cases</a></li>
+
+                        <li><a href="/maui/result/">result</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">授权操作 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/admin">登录</a></li>
+                        <li><a href="/admin/logout/">退出</a></li>
+                        <li class="divider"></li>
+                        <li><a href="\about">关于</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+{% endblock %}
+{% block contents %}
+<div class="container">
+    {% endblock %}
+    {% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>sniffer监控平台</h2>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success"> 1、可视化页面sniffer接口用例添加与修改。</li>
+                <li class="list-group-item list-group-item-success">2、接口监控，每8分钟实时执行情况报表。</li>
+                <li class="list-group-item list-group-item-success">3、执行过程异常，邮件，短信，微信推送实时提醒。</li>
+                <li class="list-group-item list-group-item-warning">4、近一月，一周，一天，svn提交记录统计及报表，每日23点统计。</li>
+                <li class="list-group-item list-group-item-info"> 5、质量服务台问题记录和过程跟踪大表。</li>
+                <li class="list-group-item list-group-item-success"> 6、近一周上线统计，研发中上线统计，所有上线统计。</li>
+
+                <li class="list-group-item list-group-item-info"> 7、Maui，各环境接口自动化测试平台。</li>
+
+            </ul>
+            <div class="alert alert-danger" role="alert"><h5>警告，执行菜单可以自动执行，请勿随意点击，后续将进行优化权限问题</h5></div>
+        </div>
+
+    </div>
+    {% endblock %}
+</div>
+
+
+<footer class="bs-docs-footer" role="contentinfo" style="margin-top: 10px;">
+    <div class="container">
+        {% block footer %}
+        <h4>sniffer 将集成一站式监控系统</h4>
+
+        <p>本项目源码开放到github：<a href="https://github.com/zhaochunyu" target="_blank">GitHub 仓库</a></p>
+        <ul class="bs-docs-footer-links muted">
+            <li>当前版本： 0.0.0</li>
+            <li>&middot;</li>
+            <li><a href="mailto:zhaochunyu@qding.me"><strong>chunyu.zhao</strong></a>
+                </address></a></li>
+            <li>&middot;</li>
+            <li><a href="#">2016年10月28日</a></li>
+            <li>&middot;</li>
+
+        </ul>
+        {% endblock %}
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

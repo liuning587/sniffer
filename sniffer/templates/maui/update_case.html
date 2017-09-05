@@ -1,0 +1,172 @@
+{% extends "index.html" %}
+
+{% block title %}用例详情{% endblock %}
+
+{% block content %}
+<p class="text-right text-danger">state：1:可用;0:停用</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>case_id</th>
+        <th>url_desc</th>
+        <th>url</th>
+        <th>case_desc</th>
+        <th>data</th>
+        <th>expect</th>
+        <th>case_state</th>
+        <th>do</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for case in urlCases %}
+
+    <tr>
+        <td>{{case.id}}</td>
+        <td>{{case.url_desc}}</td>
+        <td>{{case.url}}</td>
+        <td>{{case.case_desc}}</td>
+        <td>{{case.data}}</td>
+        <td>{{case.expect}}</td>
+        <td>{{case.state}}</td>
+
+
+        <td>
+            <button type="button" data-id="{{case.id}}" class="btn btn-primary btn-sm " data-toggle="modal"
+                    data-target="#myCasesModal">
+                update
+            </button>
+        </td>
+
+
+    </tr>
+
+    {% endfor %}
+    </tbody>
+
+</table>
+
+</div>
+
+
+<!-- casesModal -->
+<div class="modal fade" id="myCasesModal" tabindex="-1" role="dialog" aria-labelledby="myCasesModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myCasesModalLabel">update</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">case_id</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control id" style="margin-left: 10px;" readonly
+                                       placeholder="id">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">case_desc</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control case_desc" placeholder="case_desc">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">data</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control data" rows="3"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">expect</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control expect" rows="3" placeholder="expect"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">create_by</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control create_by" rows="1" placeholder="create_by"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">case_state</label>
+
+                        <div class="col-sm-2">
+                            <select class="form-control case_state" name="case_state" id="case_state">
+                                <option>1</option>
+                                <option>0</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myCasesModal').on('show.bs.modal', function(event) {
+        var id = $(event.relatedTarget).attr("data-id");
+		$.get('/maui/select_cases_id', {
+            id:id
+             		}).then(function(res) {
+            res = JSON.parse(res);
+            var data = res[0].fields;
+            var modal = $(event.target);
+            modal.find(".id").val(id)
+            modal.find(".case_desc").val(data.case_desc)
+            modal.find(".data").val(data.data)
+            modal.find(".expect").val(data.expect)
+            modal.find(".create_by").val(data.create_by)
+            modal.find(".case_state").val(data.state)
+
+ 		})
+    });
+
+    $('#myCasesModal .save').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/maui/update_cases/', {
+            id:modal.find(".id").val(),
+            case_desc:modal.find(".case_desc").val(),
+            data:modal.find(".data").val(),
+            expect:modal.find(".expect").val(),
+            create_by:modal.find(".create_by").val(),
+            case_state:modal.find(".case_state").val()
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+        })
+    });
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+{% endblock %}

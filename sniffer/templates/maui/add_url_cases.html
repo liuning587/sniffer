@@ -1,0 +1,423 @@
+{% extends "index.html" %}
+
+{% block title %}用例详情{% endblock %}
+
+{% block content %}
+
+<script>
+function selectAll(){
+    $("INPUT[type='checkbox']").each( function() {
+        $(this).attr('checked', true);
+        $(this).parents('.checkbox').find('span').addClass('checked');
+    });
+}
+
+function invertSelect(){
+    $("INPUT[type='checkbox']").each( function() {
+	if($(this).attr('checked')) {
+		$(this).attr('checked', false);
+		$(this).parents('.checkbox').find('span').removeClass('checked');
+	} else {
+		$(this).attr('checked', true);
+	        $(this).parents('.checkbox').find('span').addClass('checked');
+	}
+    });
+}
+
+
+</script>
+
+
+<div class="row">
+
+    <form role="form" action="/maui/run/" method="POST">
+        <button type="submit"  class="col-sm-1 button button-glow button-rounded button-caution button-small"
+                name="month" value="99">
+            run
+        </button>
+    </form>
+
+    <p class="text-right text-danger">state：1:可用;0:停用</p>
+
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+
+        <th><input type="checkbox" name="check" onclick="invertSelect();"/><a onclick="check.click()">run</a>
+        </th>
+        <th>id</th>
+        <th>url_desc</th>
+        <th>url</th>
+        <th>system</th>
+        <th>environ</th>
+        <th>is_warning</th>
+        <th>state</th>
+        <th>do</th>
+        <th>add_cases</th>
+        <th>update_cases</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for case in url %}
+
+    <tr>
+        <td><input type="checkbox" id="{{case.id}}" name='cName' value="{{case.id}}"></td>
+        <td>{{case.id}}</td>
+        <td>{{case.url_desc}}</td>
+        <td>{{case.url}}</td>
+        <td>{{case.system}}</td>
+        <td>{{case.environ}}</td>
+        <td>{{case.is_warning}}</td>
+        <td>{{case.state}}</td>
+
+
+        <td>
+            <button type="button" data-id="{{case.id}}" class="btn btn-primary btn-sm " data-toggle="modal"
+                    data-target="#myModal">
+                update
+            </button>
+        </td>
+        <td>
+            <button type="button" data-id="{{case.id}}" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#myCasesModal">
+                add_cases
+            </button>
+        </td>
+        <td>
+            <form role="form" action="/maui/selectCases/" method="GET">
+
+                <div class="showcase-examples l-center">
+
+                    <button type="submit" class="button button-primary button-rounded button-small"
+                            name="url_id" value="{{case.id}}">update_cases
+                    </button>
+                </div>
+            </form>
+        </td>
+
+
+    </tr>
+
+    {% endfor %}
+    </tbody>
+
+</table>
+
+</div>
+
+
+<!-- casesModal -->
+<div class="modal fade" id="myCasesModal" tabindex="-1" role="dialog" aria-labelledby="myCasesModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myCasesModalLabel">add_case</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">url_id</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control id" style="margin-left: 10px;" readonly
+                                       placeholder="id">
+                            </div>
+                            <label class="col-sm-2 control-label">url_desc</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control url_desc" style="margin-left: 10px;" readonly
+                                       placeholder="url_desc">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">url</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control url" readonly placeholder="url">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">case_desc</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control case_desc" placeholder="case_desc">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">data</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control data" rows="3"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">expect</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control expect" rows="3" placeholder="expect"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">create_by</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control create_by" rows="1" placeholder="create_by"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">case_state</label>
+
+                        <div class="col-sm-2">
+                            <select class="form-control case_state" name="case_state" id="case_state">
+                                <option>1</option>
+                                <option>0</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myCasesModal').on('show.bs.modal', function(event) {
+        var id = $(event.relatedTarget).attr("data-id");
+		$.get('/maui/select_id', {
+            id:id
+             		}).then(function(res) {
+            res = JSON.parse(res);
+            var data = res[0].fields;
+            var modal = $(event.target);
+            modal.find(".id").val(id)
+            modal.find(".url_desc").val(data.url_desc)
+            modal.find(".url").val(data.url)
+            modal.find(".create_by").val(data.create_by)
+
+ 		})
+    });
+
+    $('#myCasesModal .save').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/maui/add_cases/', {
+            id:modal.find(".id").val(),
+            case_desc:modal.find(".case_desc").val(),
+            data:modal.find(".data").val(),
+            expect:modal.find(".expect").val(),
+            create_by:modal.find(".create_by").val(),
+            case_state:modal.find(".case_state").val()
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+        })
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">update</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">id</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control id" style="margin-left: 10px;" readonly
+                                       placeholder="id">
+                            </div>
+                            <label class="col-sm-2 control-label">url_desc</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control url_desc" style="margin-left: 10px;"
+                                       placeholder="url_desc">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">url</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control url" placeholder="url">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">system</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control system" name="system" id="system">
+                                <option>qd</option>
+                                <option>m2</option>
+                                <option>app</option>
+                                <option>HKapp</option>
+                                <option>shanghu</option>
+                                <option>property</option>
+                                <option>finance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">environ</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control environ" name="environ" id="environ">
+                                <option>qaqd</option>
+                                <option>dev</option>
+                                <option>qd</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">login_name</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control login_name" rows="1"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">login_pwd</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control login_pwd" placeholder="login_pwd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="margin-left: 10px">method</label>
+
+                            <div class="col-sm-2">
+                                <select class="form-control method" name="method" id="method">
+                                    <option>POST</option>
+                                    <option>GET</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 control-label" style="margin-left: 10px">state</label>
+
+                            <div class="col-sm-2">
+                                <select class="form-control state" name="state" id="state">
+                                    <option>1</option>
+                                    <option>0</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">is_warning</label>
+
+                            <div class="col-sm-2">
+                                <select class="form-control is_warning" name="is_warning" id="is_warning">
+                                    <option>yes</option>
+                                    <option>no</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">create_by</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control create_by" rows="3" placeholder="create_by"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('show.bs.modal', function(event) {
+        var id = $(event.relatedTarget).attr("data-id");
+		$.get('/maui/select_id', {
+            id:id
+             		}).then(function(res) {
+            res = JSON.parse(res);
+            var data = res[0].fields;
+            var modal = $(event.target);
+            modal.find(".id").val(id)
+            modal.find(".url_desc").val(data.url_desc)
+            modal.find(".system").val(data.system)
+            modal.find(".url").val(data.url)
+            modal.find(".login_name").val(data.login_name)
+            modal.find(".login_pwd").val(data.login_pwd)
+            modal.find(".environ").val(data.environ)
+            modal.find(".state").val(data.state)
+            modal.find(".method").val(data.method)
+            modal.find(".create_by").val(data.create_by)
+            modal.find(".is_warning").val(data.is_warning)
+
+ 		})
+    });
+
+    $('#myModal .save').on('click', function(event) {
+        var modal = $(this).closest('.modal');
+        $.post('/maui/update/', {
+            id:modal.find(".id").val(),
+            url_desc:modal.find(".url_desc").val(),
+            system:modal.find(".system").val(),
+            url:modal.find(".url").val(),
+            environ:modal.find(".environ").val(),
+            login_name:modal.find(".login_name").val(),
+            login_pwd:modal.find(".login_pwd").val(),
+            method:modal.find(".method").val(),
+            is_warning:modal.find(".is_warning").val(),
+            create_by:modal.find(".create_by").val(),
+            state:modal.find(".state").val()
+        }).then(function(res) {
+           modal.modal('hide');
+           location.reload();
+        })
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}

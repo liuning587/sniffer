@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-responsive.css' %}">
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<style type="text/css" src="{% static 'bootstrap/css/bootstrap.css' %}"></style>
+  <link rel="stylesheet" href="{% static 'bootstrap/css/buttons.css' %}">
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>sniffer</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin" role="form"  action="/your-name/" method="post">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="your_name">Your name: </label>
+        <input type="email" class="form-control" placeholder="Email address" required autofocus>
+        <input type="password" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  </body>
+</html>

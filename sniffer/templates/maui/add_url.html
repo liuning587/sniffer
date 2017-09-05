@@ -1,0 +1,123 @@
+{% extends "../index.html" %}
+
+{% block title %}add_url{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-top: 10px;">
+    <h1 style="margin-top: 10px;">add_url</h1>
+</div>
+<form class="form-horizontal" role="form" action="/maui/url_add/" method="post">
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="create_by">create_by</label>
+
+        <div class="col-sm-10">
+            <input type="email" class="form-control" id="create_by" name="create_by" value="zhaochunyu@qding.me">
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="url_desc">url_desc</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="url_desc" name="url_desc" value="url接口测试描述">
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="url">url</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="url" name="url" placeholder="请求链接">
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;margin-top: 11px">
+        <label class="col-sm-2 control-label" for="system">system</label>
+
+        <div class="col-sm-10">
+            <select class="form-control" name="system" id="system">
+                <option>qd</option>
+                <option>m2</option>
+                <option>app</option>
+                <option>HKapp</option>
+                <option>shanghu</option>
+                <option>property</option>
+                <option>finance</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;margin-top: 11px">
+        <label class="col-sm-2 control-label" for="environ">environ</label>
+
+        <div class="col-sm-10">
+            <select class="form-control" name="environ" id="environ">
+                <option>qaqd</option>
+                <option>dev</option>
+                <option>qd</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="login_name">login_name</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="login_name" name="login_name" placeholder="login_name">
+        </div>
+    </div>
+        <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="login_pwd">login_pwd</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="login_pwd" name="login_pwd" placeholder="login_pwd">
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="row">
+            <label class="col-sm-2 control-label" style="margin-left: 10px">method</label>
+
+            <div class="col-sm-2">
+                <select class="form-control method" name="method" id="method">
+                    <option>POST</option>
+                    <option>GET</option>
+                </select>
+            </div>
+
+            <label class="col-sm-1 control-label">state</label>
+
+            <div class="col-sm-2">
+                <select class="form-control state" name="state" id="state">
+                    <option>1</option>
+                    <option>0</option>
+                </select>
+            </div>
+            <label class="col-sm-2 control-label">is_warning</label>
+
+            <div class="col-sm-2">
+                <select class="form-control state" name="is_warning" id="is_warning">
+                    <option>yes</option>
+                    <option>no</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label class="col-sm-2 control-label" for="emailto">emailto</label>
+
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="emailto" name="emailto" value="zhaochunyu@qding.me">
+            <span class="help-block">多个邮件地址以英文';'分隔</span>
+        </div>
+    </div>
+
+    <div class="col-sm-4"></div>
+    <div class="col-sm-5">
+        <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
+
+    </div>
+      <div class="col-sm-4">
+                    <p class="text-right text-danger">接口url：id：{{mes|default:"  (N/A)  " }}  添加成功</p>
+                </div>
+
+</form>
+
+{% endblock %}
